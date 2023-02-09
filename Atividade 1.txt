@@ -1,0 +1,8 @@
+software de cálculo de viagem
+cálculo de Km por Km/litro por R$/litro
+
+Elaborar o algorítmo
+pseudo código
+construção no Java
+
+

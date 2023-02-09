@@ -1,0 +1,48 @@
+Algoritmo
+1° obter distância percorrida pelo usuário (Km)
+2° obter gasto do veículo do usuário (Km/litro)
+3° obter preço da gasolina (R$/Litro)
+4° Calcular quanto vai gastar na viajem
+5° Calcular Total de Gasto
+6° Mostre quantos litros irá gastar
+7° Mostre quantos reais irá gastar
+
+------------------------------------------------------------------------------------------------------------------
+
+PseudoCódigo
+
+1° distanciaPercorrida = obterInformacaoDoUsuario();
+2° gastoVeiculo = obterInformacaoDoUsuario();
+3° preçoGasolina = obterInformacaoDoUsuario();
+4° totalGasolina = distanciaPercorrida/gastoVeiculo;
+5° totalDeGasto = totalGasolina*preçoGasolina;
+6° exibirResultadoParaUsuario(totalGasolina);
+7° exibirResultadoParaUsuario(totalDeGasto);
+
+------------------------------------------------------------------------------------------------------------------
+
+Código
+
+package CalculoViajem;
+
+import java.util.Scanner;
+
+public class CalcularViajem {
+    public static void main(String[] args) {
+        // obter distância percorrida pelo usuário (Km)
+        int distanciaPercorrida = 150;
+        /* obter gasto do veículo do usuário (Km/litro) */
+        int gastoVeiculo = 10;
+        // Obter preço da gasolina (R$/Litro)
+        float preçoGasolina = 5;
+        // Calcular quanto vai gastar na viajem
+        float totalGasolina = distanciaPercorrida / gastoVeiculo;
+        // Calcular Total de Gasto
+        float totalDeGasto = totalGasolina * preçoGasolina;
+        // Mostre quantos litros irá gastar
+        System.out.println("O total de gasolina gasta será " + totalGasolina + " Litros");
+        // Mostre quantos reais irá gastar
+        System.out.println("O Total de reais gasto será " + totalDeGasto + " R$");
+
+    }
+}
