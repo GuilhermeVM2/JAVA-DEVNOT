@@ -13,7 +13,7 @@ public class Desafio {
         double segundaaNota = sc2.nextDouble();
 
         Scanner sc3 = new Scanner(System.in);;
-        System.out.println("Informe a segunda nota");
+        System.out.println("Informe a frequência");
         double frequencia = sc3.nextDouble();
 
         double media = (primeiraNota+segundaaNota)/2;
