@@ -1,0 +1,17 @@
+01-Abrir conta
+	01-Conta pessoa física
+	02-Conta pessoa jurídica
+		
+		CPF/CNPJ
+		Nome do Titular
+		Retorna Número da conta
+
+02-Entrar na conta
+	Digite seu número de conta
+		01-Saldo
+		02-Empréstimo
+		03-Saque
+		04-Depositar
+		05-Sair
+
+03-Sair
