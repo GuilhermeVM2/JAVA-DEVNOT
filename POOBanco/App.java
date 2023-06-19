@@ -44,6 +44,10 @@ public class App {
                         conta[i].setnDocumento(
                                 Integer.parseInt(JOptionPane.showInputDialog("Digite seu N° CNPJ (Somente números)")));
                         conta[i].setNome((JOptionPane.showInputDialog("Digite sua Razão social")));
+                        conta[i].setnConta(i);
+                        JOptionPane.showMessageDialog(null,
+                                "Parabéns " + conta[i].getNome() + "\n Conta pessoa jurídica criada  com Sucesso");
+                        JOptionPane.showMessageDialog(null, "Seu número de conta é " + conta[i].getnConta());
                     }
                     i++;
                     break;
@@ -70,11 +74,12 @@ public class App {
                             case 2:
                                 
 
-                                int emprestar = Integer.parseInt(JOptionPane.showInputDialog("Seu limite de empréstimo é " + conta[acesso].emprestimo()));
-                                if (conta[acesso].getSaldo() <= 100) {
+                                
+                                if (conta[acesso].getSaldo() < 100) {
                                     JOptionPane.showMessageDialog(null, "Saldo insuficiente");
                                 }
-                                else if (emprestar <= conta[acesso].emprestimo())  {
+                                else {
+                                    int emprestar = Integer.parseInt(JOptionPane.showInputDialog("Seu limite de empréstimo é " + conta[acesso].emprestimo()));
                                     conta[acesso].setSaldo(conta[acesso].getSaldo() + emprestar);
                                     JOptionPane.showMessageDialog(null,
                                             "Seu saldo atual é " + conta[acesso].getSaldo());
@@ -84,8 +89,12 @@ public class App {
                             case 3:
                                 int sacar = Integer.parseInt(JOptionPane
                                         .showInputDialog("Seu limite de saque é " + conta[acesso].getSaldo()));
-                                if (sacar <= conta[acesso].getSaldo()) {
-                                    conta[acesso].setSaldo(conta[acesso].getSaldo() - sacar);
+                                if (sacar >= conta[acesso].getSaldo()) {
+                                    JOptionPane.showMessageDialog(null,
+                                            "Saldo Insuficiente");
+                                }
+                                else {
+                                        conta[acesso].setSaldo(conta[acesso].getSaldo() - sacar);
                                     JOptionPane.showMessageDialog(null,
                                             "Seu saldo atual é " + conta[acesso].getSaldo());
                                 }
