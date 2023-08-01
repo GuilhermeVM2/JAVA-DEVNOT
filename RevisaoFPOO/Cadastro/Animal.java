@@ -6,6 +6,8 @@ public abstract class Animal {
     double peso;
     String especie;
     String proprietario;
+
+    int idade;
     // métodos (Podem ser construtores, gets e setter ou métodos próprios)
     // caso o construtor ,que é o método com mesmo nome da classe, não for definido
     // ele será default(Vazio)
@@ -49,5 +51,13 @@ public abstract class Animal {
     public void setProprietario(String proprietario) {
         this.proprietario = proprietario;
     }
+
+        public int getIdade() {
+        return idade;
+    }
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
 
 }
