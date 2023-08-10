@@ -1,8 +1,6 @@
 package EstudoArrayList;
 
 import java.util.*;
-import java.util.Collection;
-import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -35,6 +33,7 @@ public class ExemploArrayList {
             for (String i : carros) {
                 System.out.println(i);
             }
+            //http://abre.ai/gzq6
         //apagar toda a lista
         carros.clear();
         System.out.println(carros);
