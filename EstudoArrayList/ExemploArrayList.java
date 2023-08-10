@@ -1,11 +1,17 @@
 package EstudoArrayList;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+
+import javax.swing.JOptionPane;
 
 public class ExemploArrayList {
     //Atributo
     //Declarando o ArrayList do Tipo String
     ArrayList<String> carros = new ArrayList<>();
+    ArrayList<Integer> num = new ArrayList<>();
+    
     //métodos
     public void teste(){
         //Adicionar Valores ao ArrayList;
@@ -14,6 +20,8 @@ public class ExemploArrayList {
         carros.add("Opala");
         carros.add("Eclipse");
         carros.add("Mazda rx7");
+        //ordenando a lista
+        Collections.sort(carros);
         //Imprimir toda a lista
         System.out.println(carros);
         System.out.println(carros.get(4));
@@ -21,6 +29,8 @@ public class ExemploArrayList {
         for (int i = 0; i < carros.size(); i++) {
             System.out.println(carros.get(i));
         }
+        //Collection.reverse(Invertendo as listas)
+        Collections.reverse(carros);
         //percorendo a lista com FOR-EACH
             for (String i : carros) {
                 System.out.println(i);
@@ -31,8 +41,15 @@ public class ExemploArrayList {
     }
 public void exercicio(){
     //criar um arraylist (Interger) + 5 Valores
-    ArrayList<Integer> idades = new ArrayList<>();
-    
+    //Preencher 5 n° int
+    //ordenando a lista
+        Collections.sort(num);
+    for (int i = 0; i < 5; i++) {
+        num.add(Integer.parseInt(JOptionPane.showInputDialog("Digite o número")));
+    }
+    for (int i : num) {
+        System.out.println(i);
+    }
 }
 
 }
