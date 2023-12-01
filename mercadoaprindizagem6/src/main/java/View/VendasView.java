@@ -1,82 +1,62 @@
 package View;
 
 import java.awt.GridLayout;
-import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import Connection.CadastroDAO;
-import Connection.ProdutosDAO;
-import Model.Cadastro;
-import Model.Produtos;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class VendasView extends JPanel {
-    JComboBox<String> produtosComboBox;
-    JComboBox<String> produtosComboBox1;
-    List<Produtos> produtos;
-    List<Cadastro> cadastros;
-    private JButton cadastrar;
+    private JButton procurar, adicionar, cadVenda;
+    private JTextField cadCpfField,totalField,totalDescField;
+    private DefaultTableModel tableModel;
+    private JTable table;
+    private JComboBox<String> codBarrasBox;
 
     public VendasView() {
         super();
-        produtosComboBox = new JComboBox<>();
-        // Preencha o JComboBox com os produtos
-        produtos = new ProdutosDAO().listarTodos();
-        produtosComboBox.addItem("Selecione o Produto");
-        for (Produtos produto : produtos) {
-            produtosComboBox.addItem(produto.getMarca()
-                    + " " + produto.getNome()
-                    + " " + produto.getCodigo());
-        }
 
-        add(produtosComboBox);
+        //add(new JLabel("Venda de Produto"));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(2,2));
 
-        JComboBox produtosComboBox1 = new JComboBox<>();
-        // Preencha o JComboBox com os produtos
-        cadastros = new CadastroDAO().listarTodos();
-        produtosComboBox1.addItem("Selecione o Cliente");
-        for (Cadastro cadastro : cadastros) {
-            produtosComboBox1.addItem(cadastro.getNome()
-                    + " " + cadastro.getCpf()
-                    + " " + cadastro.getidade());
-        }
-        add(produtosComboBox1);
-        //adiciona o botão cadastrar vendas
-        JPanel botoes = new JPanel();
-        botoes.add(cadastrar = new JButton("Cadastrar venda"));
-        add(botoes);
+        cadCpfField = new JTextField("Digite o CPF", 22);
+        inputPanel.add(cadCpfField);
 
+        inputPanel.add(procurar = new JButton("Procurar"));
 
+        // componentes Jcombobox
+        codBarrasBox = new JComboBox<>();
+        codBarrasBox.addItem("Cod. de Barras");
+        codBarrasBox.addItem("1");
+        codBarrasBox.addItem("2");
+        inputPanel.add(codBarrasBox);
+
+        inputPanel.add(adicionar = new JButton("Adicionar"));
+
+        add(inputPanel);
+
+        // tabela de compras
+        JScrollPane jSPane = new JScrollPane();
+        add(jSPane);
+        tableModel = new DefaultTableModel(new Object[][] {},
+                new String[] { "Item", "Qtd.", "$Un", "Preço Total" });
+        table = new JTable(tableModel);
+        jSPane.setViewportView(table);
+
+        JPanel submitPanel = new JPanel();
+        totalField = new JTextField("Valor total", 17);
+        submitPanel.add(totalField);
+        totalDescField = new JTextField("Total Desc.", 17);
+        submitPanel.add(totalDescField);
+
+        submitPanel.add(cadVenda = new JButton("Cad. Venda"));
+
+        add(submitPanel);
     }
-
-    public void atualizarComboBox() {
-        // Preencha o JComboBox com os produtos
-        produtos = new ProdutosDAO().listarTodos();
-        produtosComboBox.removeAllItems();
-        produtosComboBox.addItem("Selecione o Produto");
-        for (Produtos produto : produtos) {
-            produtosComboBox.addItem(produto.getMarca()
-                    + " " + produto.getNome()
-                    + " " + produto.getCodigo());
-        }
-    }
-
-        public void atualizarComboBox1() {
-        // Preencha o JComboBox1 com os produtos
-        cadastros = new CadastroDAO().listarTodos();
-        produtosComboBox1.removeAllItems();
-        produtosComboBox1.addItem("Selecione o produto");
-        for (Cadastro produto : cadastros) {
-            produtosComboBox.addItem(produto.getNome()
-                    + " " + produto.getCpf()
-                    + " " + produto.getidade());
-        }
-    }
-
-
 
 }
