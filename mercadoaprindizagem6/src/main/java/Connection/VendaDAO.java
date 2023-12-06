@@ -131,4 +131,33 @@ public class VendaDAO {
             ConnectionFactory.closeConnection(connection, stmt);
         }
     }
+
+        // Buscar Venda por CPF
+        public Model.Venda buscarPorCPF(String cpf) {
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            Model.Venda venda = null;
+            try {
+                String sql = "SELECT * FROM Venda_mercado WHERE cpf = ?";
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, cpf);
+                rs = stmt.executeQuery();
+    
+                if (rs.next()) {
+                    venda = new Model.Venda(
+                            rs.getString("nome"),
+                            rs.getString("marca"),
+                            rs.getString("quantidade"),
+                            rs.getString("codigo"),
+                            rs.getString("preco"));
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            } finally {
+                ConnectionFactory.closeConnection(connection, stmt, rs);
+            }
+            return venda;
+        }
+
+    
 }

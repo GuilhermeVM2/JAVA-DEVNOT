@@ -1,27 +1,29 @@
 package View;
 
 import java.util.List;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
+import Connection.CadastroDAO;
+import Connection.ProdutosDAO;
 import Connection.VendaDAO;
 import Controller.VendaControl;
+import Model.Cadastro;
+import Model.Produtos;
 import Model.Venda;
-
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class VendaPainel extends JPanel {
     // Atributos(componentes)
-    private JButton cadastrar, apagar, editar;
+    private JButton atualizar, apagar, editar, registrar;
     private JTextField cadNomeField, cadSobrenomeField, cadCpfField, cadEnderecoField,
             cadIdadeField;
     private List<Venda> Venda;
@@ -29,9 +31,19 @@ public class VendaPainel extends JPanel {
     private DefaultTableModel tableModel;
     private int linhaSelecionada = -1;
 
+    JComboBox<String> produtosComboBox;
+    JComboBox<String> produtosComboBox1;
+    List<Produtos> produtos;
+    List<Cadastro> vendas;
+
     // Construtor(GUI-JPanel)
     public VendaPainel() {
         super();
+
+
+
+
+
         // entrada de dados
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel("Venda Clientes"));
@@ -39,9 +51,7 @@ public class VendaPainel extends JPanel {
         inputPanel.setLayout(new GridLayout(5, 2));
         add(inputPanel);
         JPanel botoes = new JPanel();
-        botoes.add(cadastrar = new JButton("Cadastrar"));
-        botoes.add(editar = new JButton("Editar"));
-        botoes.add(apagar = new JButton("Apagar"));
+        botoes.add(atualizar = new JButton("Cadastrar"));
         add(botoes);
         // tabela de Venda
         JScrollPane jSPane = new JScrollPane();
@@ -72,37 +82,8 @@ public class VendaPainel extends JPanel {
 
         VendaControl operacoes = new VendaControl(Venda, tableModel, table);
 
-        // tratamento para o botçao cadastrar
-        cadastrar.addActionListener(e -> {
-            operacoes.cadastrar(cadNomeField.getText(), cadSobrenomeField.getText(), cadCpfField.getText(),
-                    cadEnderecoField.getText(), cadIdadeField.getText());
-            cadNomeField.setText("");
-            cadSobrenomeField.setText("");
-            cadCpfField.setText("");
-            cadEnderecoField.setText("");
-            cadIdadeField.setText("");
-        });
-
-        // tratamento do botão editar
-        editar.addActionListener(e -> {
-            operacoes.atualizar(cadNomeField.getText(), cadSobrenomeField.getText(), cadCpfField.getText(),
-                    cadEnderecoField.getText(), cadIdadeField.getText());
-            cadNomeField.setText("");
-            cadSobrenomeField.setText("");
-            cadCpfField.setText("");
-            cadEnderecoField.setText("");
-            cadIdadeField.setText("");
-        });
-
-        // tratamento do botão apagar
-        apagar.addActionListener(e -> {
-            operacoes.apagar(cadEnderecoField.getText());
-            cadNomeField.setText("");
-            cadSobrenomeField.setText("");
-            cadCpfField.setText("");
-            cadEnderecoField.setText("");
-            cadIdadeField.setText("");
-        });
+        // tratamento para o botçao atualizar
+        
 
     }
 

@@ -16,7 +16,7 @@ import Model.Produtos;
  */
 public class CadastroDAO {
     // atributo
-    private Connection connection;
+    private static Connection connection;
     private List<Cadastro> Cadastro;
 
     // construtor
@@ -114,6 +114,8 @@ public class CadastroDAO {
             ConnectionFactory.closeConnection(connection, stmt);
         }
     }
+
+
 
     // Apagar dados do banco
     public void apagar(String codigo) {

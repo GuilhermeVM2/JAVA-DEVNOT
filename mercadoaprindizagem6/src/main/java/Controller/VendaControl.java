@@ -32,6 +32,7 @@ public class VendaControl {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
             tableModel.addRow(new Object[] { carro.getNome(), carro.getSobrenome(), carro.getCpf(), carro.getendereco(),
                     carro.getidade() });
+            atualizarTabela();
         }
     }
 
