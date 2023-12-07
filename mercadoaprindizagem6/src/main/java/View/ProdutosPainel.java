@@ -89,7 +89,7 @@ public class ProdutosPainel extends JPanel {
         // tratamento para o botçao cadastrar
         cadastrar.addActionListener(e -> {
             operacoes.cadastrar(prodNomeField.getText(), prodMarcaField.getText(), prodQuantidadeField.getText(),
-                    prodCodigoField.getText(), prodPrecoField.getText());
+                    prodCodigoField.getText(), Integer.parseInt(prodPrecoField.getText()));
             prodNomeField.setText("");
             prodMarcaField.setText("");
             prodQuantidadeField.setText("");
@@ -97,26 +97,47 @@ public class ProdutosPainel extends JPanel {
             prodPrecoField.setText("");
         });
 
-        // tratamento do botão editar
-        editar.addActionListener(e -> {
-            operacoes.atualizar(prodNomeField.getText(), prodMarcaField.getText(), prodQuantidadeField.getText(),
-                    prodCodigoField.getText(), prodPrecoField.getText());
-            prodNomeField.setText("");
-            prodMarcaField.setText("");
-            prodQuantidadeField.setText("");
-            prodCodigoField.setText("");
-            prodPrecoField.setText("");
-        });
+// tratamento para o botão cadastrar
+cadastrar.addActionListener(e -> {
+    try {
+        operacoes.cadastrar(
+            prodNomeField.getText(),
+            prodMarcaField.getText(),
+            prodQuantidadeField.getText(),
+            prodCodigoField.getText(),
+            Double.parseDouble(prodPrecoField.getText())
+        );
+        prodNomeField.setText("");
+        prodMarcaField.setText("");
+        prodQuantidadeField.setText("");
+        prodCodigoField.setText("");
+        prodPrecoField.setText("");
+    } catch (NumberFormatException ex) {
+        // Trate a entrada inválida (exibindo uma mensagem de erro, por exemplo)
+        System.out.println("Erro de formato: Certifique-se de que o preço é um número válido.");
+    }
+});
 
-        // tratamento do botão apagar
-        apagar.addActionListener(e -> {
-            operacoes.apagar(prodCodigoField.getText());
-            prodNomeField.setText("");
-            prodMarcaField.setText("");
-            prodQuantidadeField.setText("");
-            prodCodigoField.setText("");
-            prodPrecoField.setText("");
-        });
+// tratamento do botão editar
+editar.addActionListener(e -> {
+    try {
+        operacoes.atualizar(
+            prodNomeField.getText(),
+            prodMarcaField.getText(),
+            prodQuantidadeField.getText(),
+            prodCodigoField.getText(),
+            Double.parseDouble(prodPrecoField.getText())
+        );
+        prodNomeField.setText("");
+        prodMarcaField.setText("");
+        prodQuantidadeField.setText("");
+        prodCodigoField.setText("");
+        prodPrecoField.setText("");
+    } catch (NumberFormatException ex) {
+        // Trate a entrada inválida (exibindo uma mensagem de erro, por exemplo)
+        System.out.println("Erro de formato: Certifique-se de que o preço é um número válido.");
+    }
+});
 
     }
 

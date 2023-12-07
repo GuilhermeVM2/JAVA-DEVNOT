@@ -6,10 +6,10 @@ public class Produtos {
     private String marca;
     private String quantidade;
     private String codigo;
-    private String preco;
+    private Double preco;
     // construtor
 
-    public Produtos(String nome, String marca, String quantidade, String codigo, String preco) {
+    public Produtos(String nome, String marca, String quantidade, String codigo, Double preco) {
         this.nome = nome;
         this.marca = marca;
         this.quantidade = quantidade;
@@ -43,10 +43,10 @@ public class Produtos {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-    public String getPreco() {
+    public double getPreco() {
         return preco;
     }
-    public void setPreco(String preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
     

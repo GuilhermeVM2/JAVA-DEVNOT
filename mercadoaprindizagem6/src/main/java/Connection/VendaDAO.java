@@ -26,6 +26,8 @@ public class VendaDAO {
 
     // criar Tabela
     public void criaTabela() {
+
+        // ARRUMAR NOMES DAS TABLES
         String sql = "CREATE TABLE IF NOT EXISTS Venda_mercado (MARCA VARCHAR(255),MODELO VARCHAR(255),ANO VARCHAR(255),PLACA VARCHAR(255) PRIMARY KEY, VALOR VARCHAR(255))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
