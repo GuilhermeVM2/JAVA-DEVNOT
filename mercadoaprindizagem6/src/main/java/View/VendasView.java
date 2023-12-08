@@ -1,17 +1,11 @@
 package View;
 
 import java.util.List;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import java.util.Map;
+
 import javax.swing.table.DefaultTableModel;
 import Connection.CadastroDAO;
+import Connection.ConnectionFactory;
 import Connection.ProdutosDAO;
 import Connection.VendaDAO;
 import Controller.VendaControl;
@@ -23,70 +17,85 @@ import java.awt.GridLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
+import javax.swing.table.DefaultTableModel;
 import Connection.CadastroDAO;
 import Connection.ProdutosDAO;
 import Model.Produtos;
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VendasView extends JPanel {
     private JButton procurar, adicionar, cadVenda, adicionar1;
-    private JTextField cadCpfField, totalField, totalDescField ;
+    private JTextField cadCpfField, totalField, totalDescField;
     private DefaultTableModel tableModel;
     private JTable table;
     private JComboBox<String> codBarrasBox;
-
-    JComboBox<String> produtosComboBox;
+    private int preco;
     List<Produtos> produtos;
+    private Map<String, Double> mapaProdutos;
+    private Map<String, Integer> mapaQuantidades;
+    private JComboBox<String> produtosComboBox;
+    private JComboBox<String> precosComboBox;
+    private JComboBox<String> quantidadeComboBox;
+    private JLabel labelResultado;
 
     public VendasView() {
         super();
+        mapaProdutos = obterDadosDoBanco();
+        mapaQuantidades = obterQuantidadesDoBanco();
 
         // add(new JLabel("Venda de Produto"));
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(4, 2));
+        inputPanel.setLayout(new GridLayout(3, 2));
 
         cadCpfField = new JTextField("Digite o CPF", 22);
         inputPanel.add(cadCpfField);
         inputPanel.add(procurar = new JButton("Procurar"));
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // componentes Jcombobox
         produtosComboBox = new JComboBox<>();
         // Preencha o JComboBox com os produtos
         produtos = new ProdutosDAO().listarTodos();
-        produtosComboBox.addItem("Selecione o Produto");
-        for (Produtos produto : produtos) {
-            produtosComboBox.addItem(produto.getNome() + " " + produto.getPreco());
-            double preco = 0;
-            preco = produto.getPreco();
-            JOptionPane.showMessageDialog(null,preco);
-        }
+        // Cria a JComboBox de produtos
+        produtosComboBox = new JComboBox<>(mapaProdutos.keySet().toArray(new String[0]));
+        produtosComboBox.addActionListener(e -> {
+            atualizarPrecoSelecionado();
+            atualizarQuantidadeSelecionado();
+        });
         inputPanel.add(produtosComboBox);
-        inputPanel.add(adicionar = new JButton("Adicionar"));
-        add(inputPanel);
-        // componentes Jcombobox
-        codBarrasBox = new JComboBox<>();
-        codBarrasBox.addItem("Quantidade de itens");
-        codBarrasBox.addItem("1");
-        codBarrasBox.addItem("2");
-        codBarrasBox.addItem("3");
-        codBarrasBox.addItem("4");
-        codBarrasBox.addItem("5");
-        codBarrasBox.addItem("6");
-        codBarrasBox.addItem("7");
-        codBarrasBox.addItem("8");
-        codBarrasBox.addItem("9");
-        codBarrasBox.addItem("10");
-        inputPanel.add(codBarrasBox);
-        inputPanel.add(adicionar1 = new JButton("Adicionar1"));
         add(inputPanel);
 
+        // Cria a JComboBox de preços
+        precosComboBox = new JComboBox<>(mapaProdutos.values().stream().map(String::valueOf).toArray(String[]::new));
+
+        // Cria o rótulo para exibir o resultado
+        labelResultado = new JLabel("Preço selecionado:");
+        // Cria o painel e adiciona os componentes
+
+        inputPanel.add(produtosComboBox);
+        inputPanel.add(labelResultado);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Cria a JComboBox de Quantidades
+        quantidadeComboBox = new JComboBox<>(
+                mapaQuantidades.values().stream().map(String::valueOf).toArray(String[]::new));
+
+        // Cria o rótulo para exibir o resultado
+        labelResultado = new JLabel("quantidade selecionado:");
+        // Cria o painel e adiciona os componentes
+        inputPanel.add(quantidadeComboBox);
+        add(inputPanel);
+        //////////////////////////////////////////////////////////////////
+        inputPanel.add(adicionar1 = new JButton("Adicionar"));
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // tabela de compras
         JScrollPane jSPane = new JScrollPane();
@@ -117,7 +126,6 @@ public class VendasView extends JPanel {
         String produtoSelecionado = (String) produtosComboBox.getSelectedItem();
         String quantidadeSelecionado = (String) codBarrasBox.getSelectedItem();
 
-
         if (!produtoSelecionado.equals("Selecione o Produto") && !quantidadeSelecionado.equals("Quantidade de itens")) {
             tableModel.addRow(new Object[] { produtoSelecionado, quantidadeSelecionado, "", "" });
         } else {
@@ -125,6 +133,71 @@ public class VendasView extends JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
 
+    }
+
+    private Map<String, Double> obterDadosDoBanco() {
+        Map<String, Double> dadosDoBanco = new HashMap<>();
+
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            String sql = "SELECT nome, preco FROM produtos_mercado";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                    ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    String nome = resultSet.getString("nome");
+                    double preco = resultSet.getDouble("preco");
+
+                    dadosDoBanco.put(nome, preco);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return dadosDoBanco;
+    }
+
+    private Map<String, Integer> obterQuantidadesDoBanco() {
+        Map<String, Integer> dadosDoBanco = new HashMap<>();
+
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            String sql = "SELECT nome, quantidade FROM produtos_mercado";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                    ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    String nome = resultSet.getString("nome");
+                    int quantidade = resultSet.getInt("quantidade");
+                    dadosDoBanco.put(nome, quantidade);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return dadosDoBanco;
+    }
+
+    private void atualizarPrecoSelecionado() {
+        String produtoSelecionado = (String) produtosComboBox.getSelectedItem();
+        if (produtoSelecionado != null) {
+            double preco = mapaProdutos.get(produtoSelecionado);
+            precosComboBox.setSelectedItem(String.valueOf(preco));
+            exibirResultado(preco);
+        }
+    }
+
+    private void atualizarQuantidadeSelecionado() {
+        String quantidadeSelecionado = (String) quantidadeComboBox.getSelectedItem();
+        if (quantidadeSelecionado != null) {
+            int quantidade = mapaQuantidades.get(quantidadeSelecionado);
+            precosComboBox.setSelectedItem(String.valueOf(quantidade));
+            exibirResultado(quantidade);
+        }
+    }
+
+    private void exibirResultado(double preco) {
+        labelResultado.setText("Preço selecionado: R$" + preco);
     }
 
 }

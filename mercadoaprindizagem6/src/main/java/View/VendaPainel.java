@@ -1,6 +1,8 @@
 package View;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,9 +42,7 @@ public class VendaPainel extends JPanel {
     public VendaPainel() {
         super();
 
-
-
-
+        
 
         // entrada de dados
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -70,8 +70,8 @@ public class VendaPainel extends JPanel {
             public void mouseClicked(MouseEvent evt) {
                 linhaSelecionada = table.rowAtPoint(evt.getPoint());
                 if (linhaSelecionada != -1) {
-                    //se o valor da primeira linha for texto seta dentro do BD
-                    cadNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));           
+                    // se o valor da primeira linha for texto seta dentro do BD
+                    cadNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));
                     cadSobrenomeField.setText((String) table.getValueAt(linhaSelecionada, 1));
                     cadCpfField.setText((String) table.getValueAt(linhaSelecionada, 2));
                     cadEnderecoField.setText((String) table.getValueAt(linhaSelecionada, 3));
@@ -83,7 +83,6 @@ public class VendaPainel extends JPanel {
         VendaControl operacoes = new VendaControl(Venda, tableModel, table);
 
         // tratamento para o botçao atualizar
-        
 
     }
 

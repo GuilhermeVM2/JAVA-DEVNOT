@@ -75,11 +75,15 @@ public class ProdutosPainel extends JPanel {
             public void mouseClicked(MouseEvent evt) {
                 linhaSelecionada = table.rowAtPoint(evt.getPoint());
                 if (linhaSelecionada != -1) {
+                    Double valorDouble = (Double) table.getValueAt(linhaSelecionada, 4);
+                    String valorString = String.valueOf(valorDouble);
+                    prodPrecoField.setText(valorString);
+
                     prodNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));
                     prodMarcaField.setText((String) table.getValueAt(linhaSelecionada, 1));
                     prodQuantidadeField.setText((String) table.getValueAt(linhaSelecionada, 2));
                     prodCodigoField.setText((String) table.getValueAt(linhaSelecionada, 3));
-                    prodPrecoField.setText((String) table.getValueAt(linhaSelecionada, 4));
+                    
                 }
             }
         });
@@ -97,47 +101,45 @@ public class ProdutosPainel extends JPanel {
             prodPrecoField.setText("");
         });
 
-// tratamento para o botão cadastrar
-cadastrar.addActionListener(e -> {
-    try {
-        operacoes.cadastrar(
-            prodNomeField.getText(),
-            prodMarcaField.getText(),
-            prodQuantidadeField.getText(),
-            prodCodigoField.getText(),
-            Double.parseDouble(prodPrecoField.getText())
-        );
-        prodNomeField.setText("");
-        prodMarcaField.setText("");
-        prodQuantidadeField.setText("");
-        prodCodigoField.setText("");
-        prodPrecoField.setText("");
-    } catch (NumberFormatException ex) {
-        // Trate a entrada inválida (exibindo uma mensagem de erro, por exemplo)
-        System.out.println("Erro de formato: Certifique-se de que o preço é um número válido.");
-    }
-});
+        // tratamento para o botão cadastrar
+        cadastrar.addActionListener(e -> {
+            try {
+                operacoes.cadastrar(
+                        prodNomeField.getText(),
+                        prodMarcaField.getText(),
+                        prodQuantidadeField.getText(),
+                        prodCodigoField.getText(),
+                        Double.parseDouble(prodPrecoField.getText()));
+                prodNomeField.setText("");
+                prodMarcaField.setText("");
+                prodQuantidadeField.setText("");
+                prodCodigoField.setText("");
+                prodPrecoField.setText("");
+            } catch (NumberFormatException ex) {
+                // Trate a entrada inválida (exibindo uma mensagem de erro, por exemplo)
+                System.out.println("Erro de formato: Certifique-se de que o preço é um número válido.");
+            }
+        });
 
-// tratamento do botão editar
-editar.addActionListener(e -> {
-    try {
-        operacoes.atualizar(
-            prodNomeField.getText(),
-            prodMarcaField.getText(),
-            prodQuantidadeField.getText(),
-            prodCodigoField.getText(),
-            Double.parseDouble(prodPrecoField.getText())
-        );
-        prodNomeField.setText("");
-        prodMarcaField.setText("");
-        prodQuantidadeField.setText("");
-        prodCodigoField.setText("");
-        prodPrecoField.setText("");
-    } catch (NumberFormatException ex) {
-        // Trate a entrada inválida (exibindo uma mensagem de erro, por exemplo)
-        System.out.println("Erro de formato: Certifique-se de que o preço é um número válido.");
-    }
-});
+        // tratamento do botão editar
+        editar.addActionListener(e -> {
+            try {
+                operacoes.atualizar(
+                        prodNomeField.getText(),
+                        prodMarcaField.getText(),
+                        prodQuantidadeField.getText(),
+                        prodCodigoField.getText(),
+                        Double.parseDouble(prodPrecoField.getText()));
+                prodNomeField.setText("");
+                prodMarcaField.setText("");
+                prodQuantidadeField.setText("");
+                prodCodigoField.setText("");
+                prodPrecoField.setText("");
+            } catch (NumberFormatException ex) {
+                // Trate a entrada inválida (exibindo uma mensagem de erro, por exemplo)
+                System.out.println("Erro de formato: Certifique-se de que o preço é um número válido.");
+            }
+        });
 
     }
 
