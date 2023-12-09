@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import Connection.ConnectionFactory;
 import Model.Produtos;
 
@@ -76,7 +79,7 @@ public class ProdutosDAO {
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir dados no banco de dados.", e);
+            JOptionPane.showMessageDialog(null,"Erro ao inserir dados no banco de dados.");
         } finally {
             ConnectionFactory.closeConnection(connection, stmt);
         }
@@ -96,7 +99,8 @@ public class ProdutosDAO {
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar dados no banco de dados.", e);
+            // throw new RuntimeException("Erro ao atualizar dados no banco de dados.", e);
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar dados no banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } finally {
             ConnectionFactory.closeConnection(connection, stmt);
         }
