@@ -42,8 +42,6 @@ public class VendaPainel extends JPanel {
     public VendaPainel() {
         super();
 
-        
-
         // entrada de dados
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel("Venda Clientes"));
@@ -53,6 +51,7 @@ public class VendaPainel extends JPanel {
         JPanel botoes = new JPanel();
         botoes.add(atualizar = new JButton("Cadastrar"));
         add(botoes);
+
         // tabela de Venda
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);

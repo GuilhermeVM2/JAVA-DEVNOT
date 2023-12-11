@@ -43,10 +43,10 @@ public class CadastroPainel extends JPanel {
         inputPanel.add(new JLabel("Sobrenome"));
         cadSobrenomeField = new JTextField(20);
         inputPanel.add(cadSobrenomeField);
-        inputPanel.add(new JLabel("Cpf"));
+        inputPanel.add(new JLabel("Endereco"));
         cadCpfField = new JTextField(20);
         inputPanel.add(cadCpfField);
-        inputPanel.add(new JLabel("Endereco"));
+        inputPanel.add(new JLabel("Cpf"));
         cadEnderecoField = new JTextField(20);
         inputPanel.add(cadEnderecoField);
         inputPanel.add(new JLabel("Idade"));
