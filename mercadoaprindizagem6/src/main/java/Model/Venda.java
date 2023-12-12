@@ -2,48 +2,39 @@ package Model;
 
 public class Venda {
     // atributos
-    private String nome;
-    private String sobrenome;
-    private String cpf;
-    private String endereco;
-    private String idade;
+    private String nome_cliente;
+    private String valor_total;
+    private String tipos_itens;
+
     // construtor
-    public Venda(String nome, String sobrenome, String cpf, String endereco, String idade) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.cpf = cpf;
-        this.endereco = endereco;
-        this.idade = idade;
+    public Venda(String nome_cliente, String valor_total, String tipos_itens) {
+        this.nome_cliente = nome_cliente;
+        this.valor_total = valor_total;
+        this.tipos_itens = tipos_itens;
     }
+
     // getters and setters
-    public String getNome() {
-        return nome;
+    public String getNome_cliente() {
+        return nome_cliente;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
+
+    public void setNome_cliente(String nome_cliente) {
+        this.nome_cliente = nome_cliente;
     }
-    public String getSobrenome() {
-        return sobrenome;
+
+    public String getValor_total() {
+        return valor_total;
     }
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
+
+    public void setValor_total(String valor_total) {
+        this.valor_total = valor_total;
     }
-    public String getCpf() {
-        return cpf;
+
+    public String getTipos_itens() {
+        return tipos_itens;
     }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    public String getendereco() {
-        return endereco;
-    }
-    public void setendereco(String endereco) {
-        this.endereco = endereco;
-    }
-    public String getidade() {
-        return idade;
-    }
-    public void setidade(String idade) {
-        this.idade = idade;
+
+    public void setTipos_itens(String tipos_itens) {
+        this.tipos_itens = tipos_itens;
     }
 }

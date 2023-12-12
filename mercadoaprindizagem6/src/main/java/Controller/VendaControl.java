@@ -28,32 +28,19 @@ public class VendaControl {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         Venda = new VendaDAO().listarTodos();
         // Obtém os Venda atualizados do banco de dados
-        for (Venda carro : Venda) {
-            // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { carro.getNome(), carro.getSobrenome(), carro.getCpf(), carro.getendereco(),
-                    carro.getidade() });
+        for (Venda venda : Venda) {
+            // Adiciona os dados de cada venda como uma nova linha na tabela Swing
+            tableModel.addRow(new Object[] { venda.getNome_cliente(), venda.getTipos_itens(), venda.getValor_total() });
             atualizarTabela();
         }
     }
 
-    // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String marca, String modelo, String ano, String placa, String valor) {
-        new VendaDAO().cadastrar(marca, modelo, ano, placa, valor);
-        // Chama o método de cadastro no banco de dados
-        atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
-    }
 
-    // Método para atualizar os dados de um carro no banco de dados
+    // Método para atualizar os dados de um venda no banco de dados
     public void atualizar(String marca, String modelo, String ano, String placa, String valor) {
         new VendaDAO().atualizar(marca, modelo, ano, placa, valor);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
 
-    // Método para apagar um carro do banco de dados
-    public void apagar(String placa) {
-        new VendaDAO().apagar(placa);
-        // Chama o método de exclusão no banco de dados
-        atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
-    }
 }
