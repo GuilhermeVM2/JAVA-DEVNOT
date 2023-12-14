@@ -4,12 +4,12 @@ public class Produtos {
     // atributos
     private String nome;
     private String marca;
-    private String quantidade;
+    private Double quantidade;
     private String codigo;
     private Double preco;
     // construtor
 
-    public Produtos(String nome, String marca, String quantidade, String codigo, Double preco) {
+    public Produtos(String nome, String marca, Double quantidade, String codigo, Double preco) {
         this.nome = nome;
         this.marca = marca;
         this.quantidade = quantidade;
@@ -31,10 +31,10 @@ public class Produtos {
     public void setMarca(String marca) {
         this.marca = marca;
     }
-    public String getQuantidade() {
+    public Double getQuantidade() {
         return quantidade;
     }
-    public void setQuantidade(String quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
     }
     public String getCodigo() {

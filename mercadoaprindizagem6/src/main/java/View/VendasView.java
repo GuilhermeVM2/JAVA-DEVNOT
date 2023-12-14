@@ -16,6 +16,8 @@ import java.util.Map;
 
 import Connection.ConnectionFactory;
 import Connection.VendaDAO;
+import Connection.ProdutosDAO;
+import Connection.VendaDAO;
 
 public class VendasView extends JPanel {
     private JButton cadVenda, adicionar1, procurarButton;
@@ -65,7 +67,6 @@ public class VendasView extends JPanel {
 
         precosComboBox = new JComboBox<>(mapaProdutos.values().stream().map(String::valueOf).toArray(String[]::new));
         labelResultado = new JLabel("Preço selecionado:");
-        // inputPanel.add(precosComboBox);
         inputPanel.add(labelResultado);
         add(inputPanel);
 
@@ -113,7 +114,6 @@ public class VendasView extends JPanel {
 
     private void buscarUsuarioPorCPF() {
         String cpf = cadCpfField.getText();
-
         if (cpf.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, insira um CPF válido.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
@@ -127,34 +127,37 @@ public class VendasView extends JPanel {
                 preparedStatement.setString(1, cpf);
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (cpf != "Sem Usuário") {
-
-                        if (resultSet.next()) {
-                            // Usuário encontrado
-                            String nome = resultSet.getString("nome");
-                            // Exibir o nome do usuário
-                            JOptionPane.showMessageDialog(this, "Usuário encontrado: " + nome, "Informação",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            // Atualizar o campo de CPF com o nome encontrado
-                            cadCpfField.setText(nome);
-                            // Acumular o valor
-                            String totalText = totalField.getText().replace("R$", "");
-                            if (!totalText.equals("Valor total")) {
-                                valorAcumulado += Double.parseDouble(totalText);
-                            }
-                            // Aplicar desconto de 5%
-                            double desconto = valorAcumulado * 0.05;
-                            totalDescField.setText("R$" + desconto);
-                        } else {
-                            // Usuário não encontrado
-                            JOptionPane.showMessageDialog(this, "Usuário não encontrado.", "Informação",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            // Zerar o valor acumulado e o desconto
-                            valorAcumulado = 0.0;
-                            totalDescField.setText("Total Desc.");
+                    if (resultSet.next()) {
+                        // Usuário encontrado
+                        String nome = resultSet.getString("nome");
+                        // Exibir o nome do usuário
+                        JOptionPane.showMessageDialog(this, "Usuário encontrado: " + nome, "Informação",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        // Atualizar o campo de CPF com o nome encontrado
+                        cadCpfField.setText(nome);
+                        // Acumular o valor
+                        String totalText = totalField.getText().replace("R$", "");
+                        if (!totalText.equals("Valor total")) {
+                            valorAcumulado += Double.parseDouble(totalText);
                         }
+                        // Aplicar desconto de 5%
+                        double desconto = valorAcumulado * 0.05;
+                        totalDescField.setText("R$" + desconto);
+                    } else {
+                        // Usuário não encontrado
+                        JOptionPane.showMessageDialog(this, "Usuário não encontrado.", "Informação",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        // Zerar o valor acumulado e o desconto
+                        valorAcumulado = 0.0;
+                        totalDescField.setText("R$0.00");
                     }
                 }
+            }
+
+            if (cpf.isEmpty()) {
+                // Se o CPF está vazio, não aplicar desconto
+                totalDescField.setText("R$0.00");
+                return;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -180,7 +183,7 @@ public class VendasView extends JPanel {
                         JOptionPane.INFORMATION_MESSAGE);
 
                 // Atualizar o banco de dados após cadastrar a venda
-                new VendaDAO().atualizarBanco();
+                // VendaDAO.atualizar();
 
                 // Limpar os campos e a tabela após cadastrar a venda
                 cadCpfField.setText("Sem Usuário");
@@ -196,23 +199,39 @@ public class VendasView extends JPanel {
         }
     }
 
+    
+
+
+    public void atualizar() {
+    }
+
     // Método para adicionar item à tabela
     private void adicionarItem() {
         String produtoSelecionado = (String) produtosComboBox.getSelectedItem();
+        int quantidadeDisponivel = mapaQuantidades.getOrDefault(produtoSelecionado, 0);
         String quantidadeSelecionado = String.valueOf(quantidadeComboBox.getSelectedItem());
         String preco = labelResultado.getText();
-
+        double subtrair = 0;
+        subtrair = quantidadeDisponivel - Integer.parseInt(quantidadeSelecionado);
+        
         if (produtoSelecionado != null && quantidadeSelecionado != null && !produtoJaAdicionado(produtoSelecionado)) {
             // Remover "R$" e converter para double
             double precoUnitario = Double.parseDouble(preco.replace("R$", ""));
             double precoTotal = precoUnitario * Integer.parseInt(quantidadeSelecionado);
             tableModel.addRow(new Object[] { produtoSelecionado, quantidadeSelecionado, "R$" + precoUnitario,
+                   
                     "R$" + precoTotal });
+                    
+        new ProdutosDAO().atualizarQuantidade(produtoSelecionado,subtrair);
+        obterQuantidadesDoBanco();
+        atualizarQuantidadeSelecionado();
         } else {
             JOptionPane.showMessageDialog(this,
                     "Selecione um produto válido ou escolha um que ainda não foi adicionado",
                     "Erro", JOptionPane.ERROR_MESSAGE);
         }
+
+        
     }
 
     // Método para verificar se o produto já foi adicionado à tabela
@@ -229,8 +248,14 @@ public class VendasView extends JPanel {
     // Método para calcular o valor total da tabela
     private void calcularTotal() {
         String cpf = cadCpfField.getText();
+        double porcentagemDesconto = (double) 0.05;
 
-        
+        if (cpf.equals("Sem Usuário")) {
+            porcentagemDesconto = (double) 0.00;
+        } else {
+            porcentagemDesconto = (double) 0.05;
+        }
+
         double total = 0.0;
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             String totalStr = (String) tableModel.getValueAt(i, 3);
@@ -242,6 +267,16 @@ public class VendasView extends JPanel {
         // Atualizar o desconto com base no novo total
         double desconto = total * 0.05;
         totalDescField.setText("R$" + desconto);
+        }
+
+        // Atualizar o desconto com base no novo total
+        double desconto = total * porcentagemDesconto;
+        totalDescField.setText("R$" + desconto);
+
+        if (cpf.isEmpty()) {
+            // Se o CPF está vazio, não aplicar desconto
+            totalDescField.setText("R$0.00");
+            return;
         }
     }
 

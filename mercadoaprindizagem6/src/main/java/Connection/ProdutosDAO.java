@@ -29,7 +29,7 @@ public class ProdutosDAO {
 
     // criar Tabela
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS produtos_mercado (NOME VARCHAR(255),MARCA VARCHAR(255),QUANTIDADE VARCHAR(255),CODIGO VARCHAR(255) PRIMARY KEY, PRECO DECIMAL)";
+        String sql = "CREATE TABLE IF NOT EXISTS produtos_mercado (NOME VARCHAR(255),MARCA VARCHAR(255),QUANTIDADE DECIMAL,CODIGO VARCHAR(255) PRIMARY KEY, PRECO DECIMAL)";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -52,7 +52,7 @@ public class ProdutosDAO {
                 Produtos produto = new Produtos(
                         rs.getString("nome"),
                         rs.getString("marca"),
-                        rs.getString("quantidade"),
+                        rs.getDouble("quantidade"),
                         rs.getString("codigo"),
                         rs.getDouble("preco"));
                 produtos.add(produto);
@@ -66,14 +66,14 @@ public class ProdutosDAO {
     }
 
     // Cadastrar Produto no banco
-    public void cadastrar(String nome, String marca, String quantidade, String codigo, double preco) {
+    public void cadastrar(String nome, String marca, Double quantidade, String codigo, double preco) {
         PreparedStatement stmt = null;
         String sql = "INSERT INTO produtos_mercado (nome, marca, quantidade, codigo, preco) VALUES (?, ?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nome);
             stmt.setString(2, marca);
-            stmt.setString(3, quantidade);
+            stmt.setDouble(3, quantidade);
             stmt.setString(4, codigo);
             stmt.setDouble(5, preco);
             stmt.executeUpdate();
@@ -86,18 +86,37 @@ public class ProdutosDAO {
     }
 
     // Atualizar dados no banco
-    public void atualizar(String nome, String marca, String quantidade, String codigo, double preco) {
+    public void atualizar(String nome, String marca, Double quantidade, String codigo, double preco) {
         PreparedStatement stmt = null;
         String sql = "UPDATE produtos_mercado SET nome = ?, marca = ?, quantidade = ?, preco = ? WHERE codigo = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nome);
             stmt.setString(2, marca);
-            stmt.setString(3, quantidade);
+            stmt.setDouble(3, quantidade);
             stmt.setDouble(4, preco);
             stmt.setString(5, codigo);
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
+        } catch (SQLException e) {
+            // throw new RuntimeException("Erro ao atualizar dados no banco de dados.", e);
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar dados no banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            ConnectionFactory.closeConnection(connection, stmt);
+        }
+    }
+
+        // Atualizar dados no banco
+    public void atualizarQuantidade(String nome, Double quantidade) {
+        PreparedStatement stmt = null;
+        String sql = "UPDATE produtos_mercado SET quantidade = ? WHERE nome = ?";
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setDouble(1, quantidade);
+            stmt.setString(2, nome);
+            stmt.executeUpdate();
+            System.out.println("Dados atualizados com sucesso");
+
         } catch (SQLException e) {
             // throw new RuntimeException("Erro ao atualizar dados no banco de dados.", e);
             JOptionPane.showMessageDialog(null, "Erro ao atualizar dados no banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

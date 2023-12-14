@@ -73,7 +73,7 @@ public class VendaPainel extends JPanel {
 
     // métodos(Atualizar tabela)
     // Método para atualizar a tabela de exibição com dados do banco de dados
-    private void atualizarTabela() {
+    public void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         vendas = new VendaDAO().listarTodos();
         // Obtém os Venda atualizados do banco de dados

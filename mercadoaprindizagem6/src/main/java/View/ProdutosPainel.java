@@ -78,12 +78,11 @@ public class ProdutosPainel extends JPanel {
                     Double valorDouble = (Double) table.getValueAt(linhaSelecionada, 4);
                     String valorString = String.valueOf(valorDouble);
                     prodPrecoField.setText(valorString);
-
                     prodNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));
                     prodMarcaField.setText((String) table.getValueAt(linhaSelecionada, 1));
                     prodQuantidadeField.setText((String) table.getValueAt(linhaSelecionada, 2));
                     prodCodigoField.setText((String) table.getValueAt(linhaSelecionada, 3));
-                    
+
                 }
             }
         });
@@ -92,7 +91,8 @@ public class ProdutosPainel extends JPanel {
 
         // tratamento para o botçao cadastrar
         cadastrar.addActionListener(e -> {
-            operacoes.cadastrar(prodNomeField.getText(), prodMarcaField.getText(), prodQuantidadeField.getText(),
+            operacoes.cadastrar(prodNomeField.getText(), prodMarcaField.getText(),
+                    (double) Integer.parseInt(prodQuantidadeField.getText()),
                     prodCodigoField.getText(), Integer.parseInt(prodPrecoField.getText()));
             prodNomeField.setText("");
             prodMarcaField.setText("");
@@ -107,7 +107,7 @@ public class ProdutosPainel extends JPanel {
                 operacoes.cadastrar(
                         prodNomeField.getText(),
                         prodMarcaField.getText(),
-                        prodQuantidadeField.getText(),
+                        Double.parseDouble(prodQuantidadeField.getText()),
                         prodCodigoField.getText(),
                         Double.parseDouble(prodPrecoField.getText()));
                 prodNomeField.setText("");
@@ -127,7 +127,7 @@ public class ProdutosPainel extends JPanel {
                 operacoes.atualizar(
                         prodNomeField.getText(),
                         prodMarcaField.getText(),
-                        prodQuantidadeField.getText(),
+                        Double.parseDouble(prodQuantidadeField.getText()),
                         prodCodigoField.getText(),
                         Double.parseDouble(prodPrecoField.getText()));
                 prodNomeField.setText("");
@@ -145,15 +145,13 @@ public class ProdutosPainel extends JPanel {
 
     // métodos(Atualizar tabela)
     // Método para atualizar a tabela de exibição com dados do banco de dados
-    private void atualizarTabela() {
+    public void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         produtos = new ProdutosDAO().listarTodos();
         // Obtém os prodros atualizados do banco de dados
         for (Produtos produto : produtos) {
             // Adiciona os dados de cada produto como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { produto.getNome(), produto.getMarca(),
-
-                    produto.getQuantidade(), produto.getCodigo(), produto.getPreco() });
+            tableModel.addRow(new Object[] { produto.getNome(), produto.getMarca(), produto.getQuantidade(), produto.getCodigo(), produto.getPreco() });
         }
     }
 }

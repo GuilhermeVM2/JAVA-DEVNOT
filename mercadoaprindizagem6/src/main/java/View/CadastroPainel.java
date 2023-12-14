@@ -62,7 +62,7 @@ public class CadastroPainel extends JPanel {
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
         tableModel = new DefaultTableModel(new Object[][] {},
-                new String[] { "Nome", "Sobrenome", "Cpf", "Endereco", "Idade" });
+                new String[] { "Nome", "Sobrenome", "Endereco", "Cpf", "Idade" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
         // criar o banco de dados

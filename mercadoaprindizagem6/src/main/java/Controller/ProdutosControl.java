@@ -38,7 +38,7 @@ public class ProdutosControl {
     }
 
     // Método para cadastrar um novo produto no banco de dados
-    public void cadastrar(String nome, String marca, String quantidade, String codigo, double preco) {
+    public void cadastrar(String nome, String marca, Double quantidade, String codigo, double preco) {
         new ProdutosDAO().cadastrar(nome, marca, quantidade, codigo, preco);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
@@ -46,7 +46,7 @@ public class ProdutosControl {
     }
 
     // Método para atualizar os dados de um produto no banco de dados
-    public void atualizar(String nome, String marca, String quantidade, String codigo, double preco) {
+    public void atualizar(String nome, String marca, Double quantidade, String codigo, double preco) {
         new ProdutosDAO().atualizar(nome, marca, quantidade, codigo, preco);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização

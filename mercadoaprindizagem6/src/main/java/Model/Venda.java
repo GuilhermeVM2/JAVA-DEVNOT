@@ -7,7 +7,7 @@ public class Venda {
     private String tipos_itens;
 
     // construtor
-    public Venda(String nome_cliente, String valor_total, String tipos_itens) {
+    public Venda(String nome_cliente, String valor_total, String tipos_itens, String string, String string2) {
         this.nome_cliente = nome_cliente;
         this.valor_total = valor_total;
         this.tipos_itens = tipos_itens;

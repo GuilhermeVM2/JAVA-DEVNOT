@@ -22,6 +22,16 @@ public class JanelaPrincipal extends JFrame {
 
         setBounds(100, 100, 700, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jTPane.addChangeListener(e->{
+            tab4.atualizarTabela();
+        });
+
+        jTPane.addChangeListener(e->{
+            tab1.atualizarTabela();
+        });
+
+
+
     }
 
     // métodos para tornar a janela visível
