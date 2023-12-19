@@ -1,0 +1,16 @@
+A divisão das telas foram feitas em JTabbedPane para facilitar a navegação das funções entre os cards.
+
+Tela de Produtos
+
+Nessa tela é possivel cadastrar os produtos e ter controle do estoque, sendo possível editar e alterar os valores quando necessário.
+Foi usado BoxLayout para ser mais fácil organizar lable e textField's ficando organizado e de fácil manuseio.
+Foi usado um TableModel para organizar os dados armazenado no banco de dados do produto.
+As funções da janela elas são encontradas no ProdutosDAO que é feito a conexão com o banco de dados e é gerado a tabela apartir dos dados que existem no banco, e também existe a função de cadastrar, editar e apagar que são compostas nesse arquivo.
+O arquivo Produtos na pasta Model serve para dar parametros aos itens que irão compor os dados.
+
+Tela de Cadastro
+
+Basicamente as mesmas funções que a tela de Produtos porém aqui é cadastrado os clientes VIP, usando o método ResultSet para reconhecer se o usuário é cadastrado.
+
+Tela de Vendas
+
