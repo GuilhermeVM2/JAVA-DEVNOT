@@ -1,0 +1,42 @@
+Título: Documentação Técnica Detalhada - Sistema de Gestão para Mercado
+
+1. Introdução
+
+Este documento fornece uma descrição detalhada da implementação técnica do Sistema de Gestão para Mercado. A aplicação utiliza Java para a interface gráfica e o PostgreSQL como banco de dados, seguindo a arquitetura Model-View-Controller (MVC) para organizar a lógica de cada página.
+
+2. Estrutura do Código
+
+O código fonte é organizado em módulos correspondentes ao MVC para cada página:
+
+a. Model (Modelo): Representa a camada de dados e lógica de negócios. Inclui classes que interagem com o banco de dados PostgreSQL para recuperar e atualizar informações.
+
+b. View (Visão): Contém as classes responsáveis pela apresentação gráfica da aplicação. Utiliza componentes gráficos do Java Swing para criar interfaces intuitivas e amigáveis.
+
+c. Controller (Controlador): Gerencia a comunicação entre o modelo e a visão. Responde a eventos do usuário e atualiza o modelo conforme necessário.
+
+3. Lógica de Funcionamento
+
+a. Página de Cadastro de Produtos:
+- Permite a adição, remoção e atualização de produtos.
+
+b. Página de Vendas:
+- Registra vendas, atualizando automaticamente o estoque.
+- Calcula total de vendas e exibe informações ao usuário.
+
+c. Página de Relatórios:
+- Gera relatórios personalizáveis sobre vendas, estoque e desempenho.
+
+d. Página de Clientes:
+- Registra novos clientes para serem vips.
+
+4. Escolhas de Implementação
+
+a. Java Swing: A escolha da biblioteca gráfica Swing permite a criação de interfaces ricas e responsivas.
+
+b. PostgreSQL: O banco de dados relacional PostgreSQL foi selecionado pela sua confiabilidade, desempenho e suporte a transações.
+
+c. MVC para Cada Página: A aplicação adota uma abordagem MVC para cada página, isolando as responsabilidades e facilitando a manutenção.
+
+5. Conclusão
+
+O Sistema de Gestão para Mercado demonstra uma implementação robusta e eficiente, utilizando Java, PostgreSQL e a arquitetura MVC. Este documento fornece informações detalhadas para desenvolvedores, facilitando a compreensão da estrutura do código e permitindo futuras expansões e atualizações de forma organizada e escalável.
